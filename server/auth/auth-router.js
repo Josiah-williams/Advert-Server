@@ -4,12 +4,20 @@ const router = require('express').Router();
 const Users = require('../users/userModel');
 const secrets = require('../config/secret')
 
-router.post('/register', (req, res) => {
-  let user = req.body;
+router.post('/register', validateUser, (req, res) => {
+  const { email, first_name, last_name, password, is_admin } = req.body;
   const hash = bcrypt.hashSync(user.password, 10)
   user.password = hash
 
-  Users.add(user)
+  const newUser = {
+    email,
+    first_name,
+    last_name,
+    password: hash,
+    is_admin,
+  };
+
+  Users.add(newUser)
   .then(addedUSer => {
     res.status(201).json({
       message: `${addedUSer.first_name} registered successfully`
@@ -38,6 +46,25 @@ router.post('/login', (req, res) => {
     }
   })
 })
+
+function validateUser(req, res, next) {
+  const addedUser = req.body;
+  if (Object.keys(addedUser).length === 0) {
+    res.status(400).json({ message: "Invalid inputs" });
+  } else if (!addedUser.email) {
+    res.status(400).json({ message: "Please enter a valid email" });
+  } else if (!addedUser.first_name) {
+    res.status(400).json({ message: "Please input your first name" });
+  } else if (!addedUser.last_name) {
+    res.status(400).json({ message: "Please input your last name" });
+  } else if (!addedUser.password) {
+    res.status(400).json({ message: "You have not chosen a password" });
+  } else if (!addedUser.is_admin) {
+    res.status(400).json({ message: "Are you an admin?" });
+  } else {
+    next();
+  }
+}
 
 function generateToken(user) {
   const payload = {
