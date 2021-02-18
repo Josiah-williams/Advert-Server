@@ -1,17 +1,13 @@
 
 exports.up = function(knex) {
-    return knex.schema
-    .createTable('users', users => {
-      users.increments();
-      users.string('email', 255)
-      .notNullable()
-      .unique();
-      users.string('password', 255)
-      .notNullable();
-      users.string('first_name', 255)
-      .notNullable();
-      users.string('last_name', 255)
-    })
+  return knex.schema.createTable("users", (table) => {
+    table.increments(); //Creates column named id. It is our primary key that auto-increments
+    table.string("email").notNullable().unique();
+    table.string("first_name", 128).notNullable();
+    table.string("last_name", 128).notNullable();
+    table.string("password", 128).notNullable();
+    table.boolean("is_admin").notNullable();
+  });
 };
 
 exports.down = function(knex) {
