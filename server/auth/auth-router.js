@@ -4,21 +4,15 @@ const router = require('express').Router();
 const Users = require('../users/userModel');
 const secrets = require('../config/secret')
 
-router.post('/register', validateUser, (req, res) => {
-  const { email, first_name, last_name, password, is_admin } = req.body;
+router.post('/register', (req, res) => {
+  let user = req.body;
   const hash = bcrypt.hashSync(user.password, 10)
   user.password = hash
 
-  const newUser = {
-    email,
-    first_name,
-    last_name,
-    password: hash,
-    is_admin: null,
-  };
+ 
 
-  Users.add(newUser)
-  .then((addedUSer) => {
+  Users.add(user)
+  .then(addedUSer => {
     res.status(201).json({
       message: `${addedUSer.first_name} registered successfully`
     })
@@ -30,7 +24,7 @@ router.post('/register', validateUser, (req, res) => {
 
 router.post('/login', (req, res) => {
   let {email, password} = req.body;
-  Users.findBy({email})
+  Users.findBy({ email })
   .first()
   .then(user => {
     if(user && bcrypt.compareSync(password, user.password)) {
