@@ -3,8 +3,9 @@ const jwt = require('jsonwebtoken');
 const router = require('express').Router();
 const Users = require('../users/userModel');
 const secrets = require('../config/secret')
+const validation = require('../users/userRouter')
 
-router.post('/register', (req, res) => {
+router.post('/register', validation, (req, res) => {
   let user = req.body;
   const hash = bcrypt.hashSync(user.password, 10)
   user.password = hash
@@ -22,7 +23,7 @@ router.post('/register', (req, res) => {
   });
 });
 
-router.post('/login', (req, res) => {
+router.post('/login',validation, (req, res) => {
   let {email, password} = req.body;
   Users.findBy({ email })
   .first()
@@ -51,7 +52,8 @@ router.post('/login', (req, res) => {
 function generateToken(user) {
   const payload = {
     subject: user.id,
-    email: user.email
+    email: user.email,
+    is_admin: member.is_admin,
     } 
 
     const options = {
