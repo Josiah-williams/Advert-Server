@@ -1,4 +1,5 @@
-const noPassword = "$2a$12$ZQwXBTq7UMgmugpy5zz9SOdG4JvEa3Bj5MofQl9fIMFb1wTSGU9.C";
+const bcrypt = require('bcryptjs');
+const noPassword = bcrypt.hashSync("123456", 10);
 exports.seed = function (knex) {
   // Deletes ALL existing entries
   return knex("users")
@@ -10,13 +11,13 @@ exports.seed = function (knex) {
           email: "danielAsuquo15@gmail.com",
           first_name: "Daniel",
           last_name: "Asuquo",
-          password:noPassword,
+          password: noPassword,
         },
         {
           email: "josiahdamiwilliams@gmail.com",
           first_name: "josiah",
           last_name: "williams",
-          password:noPassword,
+          password: noPassword,
         },
       ]);
     });
