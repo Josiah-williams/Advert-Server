@@ -32,7 +32,8 @@ router.post('/login',validation, (req, res) => {
       const token = generateToken(user);
       res.status(200).json({
         message: `Welcome ${user.first_name}`,
-        token: token
+        token: token,
+        user
       })
     } else {
       res.status(401).json({
@@ -53,7 +54,7 @@ function generateToken(user) {
   const payload = {
     subject: user.id,
     email: user.email,
-    is_admin: member.is_admin,
+    
     } 
 
     const options = {
