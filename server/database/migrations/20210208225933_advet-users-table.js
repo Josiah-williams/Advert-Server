@@ -7,7 +7,7 @@ exports.up = function(knex) {
     table.string("last_name", 128).notNullable();
     table.string("password", 128).notNullable();
   });
-};
+};  
 
 exports.down = function(knex) {
    return knex.schema
