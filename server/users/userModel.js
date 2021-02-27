@@ -6,7 +6,6 @@ module.exports = {
   findById,
   update,
   remove,
-  getUserIssues,
 }
 
 function findBy(filter) {
@@ -41,9 +40,3 @@ function remove(id) {
   .del();
 }
 
-function getUserIssues(userId) {
-  return db('issues as i')
-  .join('users as u', 'u.id', 'i.user_id')
-  .select('i.*')
-  .where('i.user_id', userId)
-}
