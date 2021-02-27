@@ -36,8 +36,6 @@ function validateUser(req, res, next) {
     next();
   }
 }
-
-
 //Endpoints
 router.get('/:id',[restricted, validateUserId], (req, res) => {
   res.json(req.user)
