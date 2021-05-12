@@ -5,7 +5,7 @@ const dotenv = require('dotenv');
 const advertRouter = require('./adverts/advertRouter')
 const authRouter = require('./auth/auth-router');
 
-const userRouter = require('./users/userRouter');
+// const userRouter = require('./users/userRouter');
 
 dotenv.config();
 const server = express();
@@ -27,7 +27,7 @@ server.use(cors());
 server.use(express.json());
 
 server.use('/api/auth', authRouter)
-server.use('/api/user', userRouter)
+// server.use('/api/user', userRouter)
 server.use('/api/adverts', advertRouter)
 
 

@@ -29,10 +29,10 @@ router.get('/:id', validateUserId, (req, res) => {
 router.post('/add', (req, res) => {
    //create an advert
    const newAdvert = req.body
-   if (!newAdvert.advertName || !newAdvert.websiteUrl || !newAdvert.country || !newAdvert.tags || !newAdvert.days || !newAdvert.date || !newAdvert.dateString || !newAdvert.user_id) {
+   if (!newAdvert.advertName || !newAdvert.websiteUrl || !newAdvert.country || !newAdvert.tags || !newAdvert.days || !newAdvert.number || !newAdvert.dateString) {
    res.status(400).json({ errorMessage: 'please provide complete body'})
    }else{
-       advertDb.insert(newAdvert)
+       advertDb.add(newAdvert)
        .then( result => {
        res.status(201).json(result)
   })
@@ -41,7 +41,7 @@ router.post('/add', (req, res) => {
    
 })
 
-router.delete('/update/:id', (req, res) => {
+router.delete('/delete/:id', (req, res) => {
     const {id} = req.params
     advertDb.remove(id)
     .then(results => {
@@ -53,7 +53,7 @@ router.delete('/update/:id', (req, res) => {
         .catch(err => res.status(500).json({ message: 'Error deleting adverts'}))
     })
 
-router.put('/delete/:id', (req, res) => {
+router.put('/update/:id', (req, res) => {
     const {id} = req.params
     const advertInfo = req.body
     if(!advertInfo.advertName || !advertInfo.websiteUrl || !advertInfo.country || !advertInfo.tags || !advertInfo.days || !advertInfo.date || !advertInfo.dateString || !advertInfo.user_id){

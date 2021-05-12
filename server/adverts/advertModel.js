@@ -1,4 +1,4 @@
-const db = require('../database/dbConfig');
+// const db = require('../database/dbConfig');
 
 module.exports = {
   find,
@@ -9,7 +9,17 @@ module.exports = {
 }
 
 function find() {
-  return('adverts')
+  return db('adverts')
+  .select(
+    'adverts.id',
+    'advertName',
+    'websiteUrl',
+    'country',
+    'tags',
+    'days',
+    'number',
+    'datestring'
+    )
 }
 
 function findById(id) {
